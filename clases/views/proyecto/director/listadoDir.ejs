@@ -1,0 +1,102 @@
+
+<% const arreglo = [] %>
+<html>
+    <body>
+
+    <style>
+        body {background: lightgrey; font-family: "Book Antiqua"}
+        h1 {font-family: "Book Antiqua"; padding-left: 100px; padding-top: 30px}
+        table {color: black; background: whitesmoke; align: center;
+            text-align: left; border-style: solid; border-color: black; margin-left: 15%; margin-left: 15%}
+
+        td {color: black; width: 150px}
+        th {width: 150px; align-content: initial; font-size: 20px; color: black}
+        .acciones {width: 250px; text-align: center}
+        .numeral {width: 50px}
+        #busqueda {font-size: 18px; width: 700px; border-radius: 10px; border: 1px dotted}
+        #labelbusqueda {font-size: 25px; margin-left: 30px; padding-right: 20px}
+        button {width: 75px; color: black; background: azure}
+        #btBusqueda {color: black; background: darkkhaki;width: auto ;font-size: 20px; margin-left: 20px}
+        #formBusqueda {width: 100%; padding-left: 50px; text-align: left}
+        .paginacion {color: black; width: 150px; background: darkgray}
+        #anterior {margin-left: 10%}
+        #btCrear {color: black; background: slategray ;margin-left: 10%;font-size: 15px; width: 200px}
+        #encabezado {background: darkgray; }
+        .numeral {background: darkgray;}
+        #datos {margin-left: 10%}
+    </style>
+
+    <h1>DIRECTORES</h1>
+
+    <form action="/director/obtener" id="formBusqueda">
+        <label for="busqueda" id="labelbusqueda">Busqueda</label>
+        <input id="busqueda" type="text" name="busqueda">
+        <button type="submit" id="btBusqueda">
+            Busqueda
+        </button>
+    </form>
+
+    <a href="/director/crear-director" >
+        <button id="btCrear">CREAR</button>
+    </a>
+
+    <br><br>
+
+    <div id="tabla">
+        <table border="1">
+            <tr id="encabezado">
+                <th class="numeral">ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Edad</th>
+                <th>País Origen</th>
+                <th class="acciones">Acciones</th>
+            </tr>
+            <% for (let director of datos[0]){ %>
+                <tr>
+                    <td class="numeral"><%= director.id %></td>
+                    <%const direccion = '/director/eliminar-director?id=' + director.id %>
+                    <td><%= director.nombre %></td>
+                    <td><%= director.apellido %></td>
+                    <td><%= director.edad %></td>
+                    <td><%= director.pais %></td>
+                    <%const actual = [director.id, director.nombre, director.apellido, director.edad,
+                        director.pais] %>
+                    <%const Editar = '/director/editar-director?id=' + actual[0] +
+                            '&nombre=' + actual[1] +
+                            '&apellido=' + actual[2] +
+                            '&edad=' + actual[3] +
+                            '&pais=' + actual[4] %>
+                    <%const Pelicula = 'http://localhost:3000/pelicula/obtener?idfk=' +
+                            director.id%>
+                    <td class="acciones">
+
+                        <a href="<%= Pelicula%>">
+                            <button>Películas</button>
+                        </a>
+                        <a href="<%= Editar%>">
+                            <button>Editar</button>
+                        </a>
+                        <a href="<%= direccion%>">
+                            <button>Eliminar</button>
+                        </a>
+                    </td>
+                </tr>
+            <% } %>
+        </table>
+    </div>
+    <br>
+    <p id="datos">Número total de registros: <%= datos[1]%></p>
+
+    <a href="/director/obtener?anterior=si">
+        <button class="paginacion" id="anterior">Anterior</button>
+    </a>
+    <a href="/director/obtener?siguiente=si">
+        <button class="paginacion">Siguiente</button>
+    </a>
+
+
+
+
+</body>
+</html>

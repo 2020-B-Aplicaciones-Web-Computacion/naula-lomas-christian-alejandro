@@ -1,0 +1,47 @@
+
+<html>
+
+    <body>
+
+        <style>
+            body {background: lightgrey; font-family: "Book Antiqua"}
+            h1 {font-family: "Book Antiqua"; padding-left: 100px; padding-top: 30px}
+            label {display: inline-block; width: 100px; text-align: left;
+                font-family: "Book Antiqua"; font-size: 20px; border-radius: 0}
+            form {text-align: center; border: 1px solid; border-top-left-radius: 20px;
+                border-bottom-right-radius: 20px; margin-left: 30%; margin-right: 30%}
+            input {border: 1px dotted }
+            button {width: 200px; background: darkgray}
+        </style>
+
+        <h1>EDITAR DIRECTOR</h1>
+
+        <form action="/director/editar-director?id=<%= parametrosConsulta.id%>" method="post">
+            <br>
+            <label for="id">ID:</label>
+            <input id="id" type="text" name="id" value="<%= parametrosConsulta.id%>" disabled>
+            <br><br>
+
+            <label for="nombre">Nombre:</label>
+            <input id="nombre" type="text" name="nombre" value="<%= parametrosConsulta.nombre%>">
+            <br><br>
+
+            <label for="apellido">Apellido:</label>
+            <input id="apellido" type="text" name="apellido" value="<%= parametrosConsulta.apellido%>">
+            <br><br>
+
+            <label for="edad">Edad:</label>
+            <input id="edad" type="text" name="edad" value="<%= parametrosConsulta.edad%>">
+            <br><br>
+
+            <label for="pais">País:</label>
+            <input id="pais" type="text" name="pais" value="<%= parametrosConsulta.pais%>">
+            <br><br>
+
+            <button type="submit">ACEPTAR</button>
+            <button type="submit" formaction="obtener" formmethod="get">CANCELAR</button>
+            <br><br>
+        </form>
+
+    </body>
+</html>

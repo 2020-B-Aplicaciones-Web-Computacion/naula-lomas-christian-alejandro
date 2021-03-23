@@ -11,12 +11,14 @@ import {
     Put,
     Patch,
     Body,
-    Query
+    Query, BadRequestException
 } from "@nestjs/common";
 import {UsuarioService} from "./usuario.service";
 import {FindConditions, FindManyOptions, Like} from "typeorm";
 import {UsuarioEntity} from "./usuario.entity";
 import {response} from "express";
+import {FormularioCrearDto} from "../dto/formulario-crear.dto";
+import {validate} from "class-validator";
 
 @Controller('usuario')
 export class UsuarioController {
@@ -260,6 +262,29 @@ export class UsuarioController {
         response.redirect('usuarios?mensaje=Se creo el usuario ' +
         parametrosCuerpo.nombre)
         //response.redirect('usuario/usuarios?busqueda=')
+    }
+
+    @Post('validacion-formulario')
+    async validacionFormulario(
+        @Body() parametrosCuerpo
+    ){
+        const dtoFormulario = new FormularioCrearDto();
+        dtoFormulario.nombre = parametrosCuerpo.nombre;
+        dtoFormulario.cedula = parametrosCuerpo.cedula;
+        dtoFormulario.correo = parametrosCuerpo.correo;
+        dtoFormulario.edad = parametrosCuerpo.edad;
+        dtoFormulario.soltero = parametrosCuerpo.soltero;
+
+        const errores = await validate(dtoFormulario);
+        if (errores.length > 0){
+            console.error(JSON.stringify(errores))
+            console.error(errores.toString())
+            throw new BadRequestException('No envía correctamente los parámetros.')
+        }else{
+            // llamar al servicio y crear el servicio y responder alguna cosa.
+            return 'ok';
+        }
+
     }
 
 

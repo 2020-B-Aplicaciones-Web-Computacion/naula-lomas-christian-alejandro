@@ -6,6 +6,10 @@ import {UsuarioModule} from "./usuario/usuario.module";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {UsuarioEntity} from "./usuario/usuario.entity";
 import {MascotaEntity} from "./mascota/mascota.entity";
+import {DirectorModule} from "./proyecto/director/director.module";
+import {PeliculaModule} from "./proyecto/pelicula/pelicula.module";
+import {DirectorEntity} from "./proyecto/director/director.entity";
+import {PeliculaEntity} from "./proyecto/pelicula/pelicula.entity";
 
 @Module({
   imports: [
@@ -19,11 +23,15 @@ import {MascotaEntity} from "./mascota/mascota.entity";
          synchronize: true,
          entities: [
              UsuarioEntity,
-             MascotaEntity
+             MascotaEntity,
+             DirectorEntity,
+             PeliculaEntity
          ]
       }),
       MascotaModule,
-      UsuarioModule
+      UsuarioModule,
+      DirectorModule,
+      PeliculaModule
   ],
   controllers: [AppController],
   providers: [AppService],

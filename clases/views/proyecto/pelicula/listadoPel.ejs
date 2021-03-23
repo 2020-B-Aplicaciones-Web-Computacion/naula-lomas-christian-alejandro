@@ -1,0 +1,98 @@
+
+<html>
+
+    <body>
+        <style>
+            body {background: lightgrey; font-family: "Book Antiqua"}
+            h1 {font-family: "Book Antiqua"; padding-left: 100px; padding-top: 30px}
+            table {color: black; background: whitesmoke; align: center; width: 70%;
+                text-align: left; border-style: solid; border-color: black; margin-left: 15%; margin-left: 15%}
+            td {color: black; width: 150px}
+            th {width: 150px; align-content: initial; font-size: 20px; color: black}
+            .acciones {width: 200px; text-align: center}
+            .numeral {width: 50px; background: darkgray;}
+            #busqueda {font-size: 18px; width: 700px; border-radius: 10px; border: 1px dotted}
+            #labelidfk {margin-left: 50px}
+            #labelbusqueda {font-size: 25px; margin-left: 30px; padding-right: 20px}
+            button {width: 75px; color: black; background: azure}
+            #btBusqueda {color: black; background: darkkhaki;width: auto ;font-size: 20px; margin-left: 20px}
+            #formBusqueda {width: 100%; padding-left: 50px; text-align: left}
+            .paginacion {color: black; width: 150px; background: darkgray}
+            #anterior {margin-left: 10%}
+            #btCrear {margin-left: 10%;}
+            .btnEncabezado {color: black; background: slategray; font-size: 15px; width: 200px;}
+            #encabezado {background: darkgray; }
+            #datos {margin-left: 10%}
+        </style>
+
+        <h1>PELÍCULAS</h1>
+
+        <form action="/pelicula/obtener" method="get" id="formBusqueda">
+
+            <label for="idfk" id="labelidfk">IdDirector</label>
+            <input id="idfk" type="text" name="idfk" value="<%= parametrosConsulta.idfk%>" readonly>
+            <br><br>
+
+
+            <label for="busqueda" id="labelbusqueda">Busqueda</label>
+            <input id="busqueda" type="text" name="busqueda">
+            <button type="submit" id="btBusqueda">
+                Busqueda
+            </button>
+        </form>
+
+        <a href="/pelicula/crear-pelicula?idfk=<%= parametrosConsulta.idfk%>">
+            <button id="btCrear" class="btnEncabezado">CREAR</button>
+        </a>
+        <a href="/director/obtener">
+            <button class="btnEncabezado">REGRESAR</button>
+        </a>
+        <br><br>
+        <table border="1">
+            <tr id="encabezado">
+                <th class="numeral">ID</th>
+                <th>Nombre</th>
+                <th>Género</th>
+                <th>Duración</th>
+                <th>Año</th>
+                <th class="acciones">Acciones</th>
+            </tr>
+            <% for (let pelicula of datos[0]){ %>
+                <tr>
+                    <td class="numeral"><%= pelicula.id %></td>
+                    <%const direccion = '/pelicula/eliminar-pelicula?id=' + pelicula.id +
+                            '&idfk=' + parametrosConsulta.idfk %>
+                    <td><%= pelicula.nombre %></td>
+                    <td><%= pelicula.genero %></td>
+                    <td><%= pelicula.duracion %></td>
+                    <td><%= pelicula.anio %></td>
+                    <%const actual = [pelicula.id, pelicula.nombre, pelicula.genero, pelicula.duracion,
+                        pelicula.anio] %>
+                    <% const Editar = '/pelicula/editar-pelicula?id=' + actual[0] +
+                            '&nombre=' + actual[1] +
+                            '&genero=' + actual[2] +
+                            '&duracion=' + actual[3] +
+                            '&anio=' + actual[4] +
+                            '&idfk=' + parametrosConsulta.idfk %>
+                    <td class="acciones">
+                        <a href="<%= Editar%>">
+                            <button>Editar</button>
+                        </a>
+                        <a href="<%= direccion%>">
+                            <button>Eliminar</button>
+                        </a>
+                    </td>
+                </tr>
+            <% } %>
+        </table>
+
+        <p id="datos">Numero total de registros: <%= datos[1]%></p>
+        <a href="/pelicula/obtener?anterior=si&idfk=<%= parametrosConsulta.idfk%>">
+            <button class="paginacion" id="anterior">Anterior</button>
+        </a>
+        <a href="/pelicula/obtener?siguiente=si&idfk=<%= parametrosConsulta.idfk%>">
+            <button class="paginacion">Siguiente</button>
+        </a>
+
+    </body>
+</html>
